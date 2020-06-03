@@ -1,0 +1,19 @@
+<h1>Attributes</h1>
+
+<%attributes = []%>
+
+<%@doc.xpath('plist/dict/dict/dict').each do |node|%>
+  <%l = Library.new%>
+  <%node.children.each do |child|%>
+
+      <%# looking for keys only %>
+      <%next if child.name != "key"%>
+
+
+      <%# child.text is the attribute name and child.next_element.text is the attribute value %>
+      <%attribute_name = child.text.downcase.gsub(" ","_")%>
+      <%l.send("#{attribute_name}=", "\"#{child.next_element.text}\"")%>
+
+  <%end%>
+  <%l.save%>
+<%end%>

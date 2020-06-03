@@ -1,0 +1,20 @@
+<h1>Attributes</h1>
+
+<%attributes = []%>
+
+<%@doc.xpath('plist/dict/dict/dict').each do |node|%>
+  <%node.children.each do |child|%>
+    <%# skips all children which aren't the keys for Artist or Name %>
+    <%next if child.name != "key"%>
+    <%next if attributes.include?(child.text)%>
+    <%attributes.push(child.text)%>
+  <%end%>
+<%end%>
+
+<%=attributes%>
+<br>
+<%=attributes.count%>
+<hr>
+<%attributes.each do |attribute|%>
+  <%=attribute.downcase.gsub(" ","_")%>:string 
+<%end%>

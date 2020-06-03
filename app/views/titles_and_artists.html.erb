@@ -1,0 +1,32 @@
+<%=@doc.xpath('plist/dict/dict/dict[1]/key[3]').text%>
+
+<h1>it's my website y'all</h1>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Artist</th>
+  </tr>
+
+  <%@doc.xpath('plist/dict/dict/dict').each do |node|%>
+    <tr>
+      <%node.children.each do |child|%>
+
+        <%# skips all children which aren't the keys for Artist or Name %>
+        <%next if child.name != "key"%>
+        <%next if (child.text != "Artist" && child.text != "Name")%>
+
+        <td>
+          <%if child.name == "key" && child.text=="Name"%>
+            <%=child.next_element.text%>
+          <%elsif child.name == "key" && child.text=="Artist"%>
+            <%=child.next_element.text%>
+          <%else%>
+            <%=child.text%>
+          <%end%>        
+        </td>
+      <%end%>
+
+  <%end%>
+
+</table>
